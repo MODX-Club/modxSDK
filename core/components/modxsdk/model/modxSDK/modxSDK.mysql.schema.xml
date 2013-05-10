@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model package="modxSDK" baseClass="xPDOObject" platform="mysql" defaultEngine="MyISAM" version="1.1">
+	<object class="ModxsdkPackage" table="modxsdk_package" extends="xPDOSimpleObject">
+		<field key="name" dbtype="varchar" precision="100" phptype="string" null="false" index="index" />
+		<field key="version_major" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" default="0" />
+		<field key="version_minor" dbtype="int" precision="11" phptype="integer" null="false" default="0" />
+		<field key="version_patch" dbtype="int" precision="11" phptype="integer" null="false" default="0" />
+		<field key="version_type" dbtype="varchar" precision="100" phptype="string" null="false" default="beta" />
+
+		<index alias="name" name="name" primary="false" unique="true" type="BTREE" >
+			<column key="name" length="" collation="A" null="false" />
+			<column key="version_major" length="" collation="A" null="false" />
+			<column key="version_minor" length="" collation="A" null="false" />
+			<column key="version_patch" length="" collation="A" null="false" />
+			<column key="version_type" length="" collation="A" null="false" />
+		</index>
+	</object>
+	<object class="ModxsdkPackageVehicle" table="modxsdk_package_vehicle" extends="xPDOObject">
+		<field key="packageid" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" index="pk" />
+		<field key="vehicleid" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" index="pk" />
+
+		<index alias="PRIMARY" name="PRIMARY" primary="true" unique="true" type="BTREE" >
+			<column key="packageid" length="" collation="A" null="false" />
+			<column key="vehicleid" length="" collation="A" null="false" />
+		</index>
+	</object>
+	<object class="ModxsdkPackagesource" table="modxsdk_packagesource" extends="xPDOObject">
+		<field key="packageid" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" index="pk" />
+		<field key="sourceid" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" index="pk" />
+
+		<index alias="PRIMARY" name="PRIMARY" primary="true" unique="true" type="BTREE" >
+			<column key="packageid" length="" collation="A" null="false" />
+			<column key="sourceid" length="" collation="A" null="false" />
+		</index>
+	</object>
+	<object class="ModxsdkProject" table="modxsdk_project" extends="xPDOSimpleObject">
+		<field key="name" dbtype="varchar" precision="100" phptype="string" null="false" />
+		<field key="description" dbtype="text" phptype="string" null="false" />
+	</object>
+	<object class="ModxsdkProjectPackage" table="modxsdk_project_package" extends="xPDOObject">
+		<field key="projectid" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" index="pk" />
+		<field key="packageid" dbtype="int" precision="10" attributes="unsigned" phptype="integer" null="false" index="pk" />
+
+		<index alias="projectid" name="projectid" primary="false" unique="true" type="BTREE" >
+			<column key="projectid" length="" collation="A" null="false" />
+			<column key="packageid" length="" collation="A" null="false" />
+		</index>
+	</object>
+	<object class="ModxsdkVehicle" table="modxsdk_vehicle" extends="xPDOSimpleObject">
+		<field key="name" dbtype="varchar" precision="100" phptype="string" null="false" />
+	</object>
+</model>

@@ -1,0 +1,548 @@
+/*
+ * Редактор компаний
+ **/
+
+modxSDK.tree.BuilderObjectsTree = function(config){
+    config = config || {}; 
+    
+    var root = {
+            nodeType: 'async'
+            ,text: config.root_name || config.rootName || 'New project'
+            ,draggable: false
+            ,allowDrop: false
+            ,id: config.root_id || config.rootId || 'project'
+            ,type: 'project'
+            ,cls: 'modxsdk-package-icon'
+        };
+    
+    Ext.applyIf(config,{
+        url: modxSDK.config.connector_url + 'builder/objects.php'
+         
+        ,baseParams: {
+            hideFiles: config.hideFiles || false
+            ,wctx: MODx.ctx || 'web'
+            ,currentAction: MODx.request.a || 0
+            ,currentFile: MODx.request.file || ''
+            ,projectid: null
+        }
+        ,title: 'New Project'
+        ,header:  true
+        ,autoScroll: true
+        ,loaderConfig:{}
+        ,rootVisible: false
+        ,root: root
+        ,action: 'getList'
+        ,ddGroup: 'modx-treedrop-dd'
+        ,allowDrop: true
+        ,listeners: {
+            'beforenodedrop': this._handleBeforeNodeDrop
+        }
+        ,useDefaultToolbar: true
+        ,tbar: [{
+            text: 'Create project'
+            ,tooltip: {text: 'Create new project'}
+            ,handler: this.createProject
+            ,scope: this
+        },'-',{
+            text: 'Select project'
+            ,tooltip: {text: 'Select existing project'}
+            ,handler: this.selectProject
+            ,scope: this
+        },'-',{
+            text: 'Create package'
+            ,tooltip: {text: 'Create new package'}
+            ,handler: this.createProjectPackage
+            ,scope: this
+        }]
+    });
+     
+    config.loaderConfig.dataUrl = config.url;
+    config.loaderConfig.baseParams = config.baseParams;
+    
+    Ext.applyIf(config.loaderConfig,{
+        preloadChildren: true
+        ,clearOnLoad: true
+    });
+      
+    
+    modxSDK.tree.BuilderObjectsTree.superclass.constructor.call(this,config);
+};
+
+Ext.extend(modxSDK.tree.BuilderObjectsTree, MODx.tree.Tree,{
+    config:{
+        
+    }
+    
+    ,getBaseParam: function(param){
+        return this.baseParams[param];
+    }
+    
+    ,setBaseParam: function(param, value){
+        this.baseParams[param] = value;
+    }
+    
+    /*
+     *  Create project
+     **/
+    ,createProject: function(){
+        var win = new MODx.Window({
+            tree: this
+            ,title: 'New project'
+            ,modal: true
+            ,fields: [{
+                xtype: 'textfield'
+                ,fieldLabel: 'Project name'
+                ,name: 'name'
+                ,width: 420
+                ,allowBlank: false
+            }]
+            ,url: modxSDK.config.connector_url + 'builder/project.php'
+            ,action: 'create'
+            ,success: function(frm, r){
+                try{
+                    var object = r.result.object;
+                    this.tree.setTitle(object.name);
+                    this.tree.setBaseParam('projectid', object.id);
+                    this.tree.refresh();
+                }
+                catch(e){
+                    Ext.Msg.alert('Error', e);
+                }
+            }
+        });
+        win.on('hide', function(){
+            win.close();
+        });
+        win.show();
+    }
+    
+    
+    /*
+     *  Select project
+     **/
+    ,selectProject: function(){
+        
+        var ProjectsCombo = new MODx.combo.ComboBox({
+            fieldLabel: 'Projects'
+            ,xtype: 'modx-combo'
+            ,width: 300
+            ,allowBlank: false
+            ,url: modxSDK.config.connector_url + 'builder/project.php'
+            ,action: 'getList'
+        });
+        
+        var win = new MODx.Window({
+            title: 'SelectProject'
+            ,width: 330
+            ,fields:[ProjectsCombo] 
+            ,buttons: [{
+                text: _('cancel')
+                ,scope: this
+                ,handler: function() { win.close(); }
+            },{
+                text: _('save')
+                ,scope: this
+                ,handler: function(){
+                    if(!ProjectsCombo.getRawValue()){return false;}
+                    this.setTitle(ProjectsCombo.getRawValue());
+                    this.setBaseParam('projectid', ProjectsCombo.getValue());
+                    this.refresh();
+                    win.close();
+                }
+            }]
+        });
+        win.show();
+    }
+    
+    /*
+     *  create Package
+     **/
+    ,createProjectPackage: function(){
+        var win = new MODx.Window({
+            tree: this
+            ,title: 'New package'
+            ,modal: true
+            ,fields: [{
+                xtype: 'textfield'
+                ,fieldLabel: 'Package name'
+                ,name: 'name'
+                ,width: 420
+                ,allowBlank: false
+            },{
+                xtype: 'textfield'
+                ,fieldLabel: 'Version major'
+                ,name: 'version_major'
+                ,width: 420
+                ,allowBlank: false
+            },{
+                xtype: 'textfield'
+                ,fieldLabel: 'Version minor'
+                ,name: 'version_minor'
+                ,width: 420
+                ,allowBlank: false
+            },{
+                xtype: 'textfield'
+                ,fieldLabel: 'Version patch'
+                ,name: 'version_minor'
+                ,width: 420
+                ,allowBlank: false
+            },{
+                xtype: 'textfield'
+                ,fieldLabel: 'Version type'
+                ,name: 'version_type'
+                ,width: 420
+                ,allowBlank: false
+            },{
+                xtype: 'hidden'
+                ,name: 'projectid'
+                ,value: this.getBaseParam('projectid')
+            }]
+            ,url: modxSDK.config.connector_url + 'builder/project.php'
+            ,action: 'package/create'
+            ,success: function(frm, r){
+                this.tree.refresh();
+            }
+        });
+        win.on('hide', function(){
+            win.close();
+        });
+        win.show();
+    }
+    
+    
+    /*
+     *  Context menues
+     */
+    
+    ,_showContextMenu: function(node, e){
+        node.select();
+        this.cm.activeNode = node;        
+        this.cm.removeAll();
+        var m;
+        var handled = false;
+        
+        if (!Ext.isEmpty(node.attributes.treeHandler) || (node.isRoot && !Ext.isEmpty(node.childNodes[0].attributes.treeHandler))) {
+            var h = Ext.getCmp(node.isRoot ? node.childNodes[0].attributes.treeHandler : node.attributes.treeHandler);
+            if (h) {
+                if (node.isRoot) { node.attributes.type = 'root'; }
+                m = h.getMenu(this,node,e);
+                handled = true;
+            }
+        }
+        if (!handled) {
+            if (this.getMenu) {
+                m = this.getMenu(node,e);
+            } else if (node.attributes.menu && node.attributes.menu.items) {
+                m = node.attributes.menu.items;
+            }
+        }
+        if (m && m.length > 0) {
+            this.addContextMenuItem(m);
+            this.cm.showAt(e.xy);
+        }
+        e.preventDefault();
+        e.stopEvent();
+    }
+    
+    ,getMenu: function(node, e){
+        // console.log(node);
+        if(node.attributes.menu){
+            return node.attributes.menu.items;
+        } 
+        
+        switch(node.attributes.type){
+            case 'package':
+                return this.getPackageMenu();
+                break;
+            case 'vehicles':
+                return this.getVehiclesMenu();
+                break;
+            case 'sources':
+                return this.getSourcesMenu();
+                break;
+            case 'packagesource':
+                return this.getPackageSourceMenu(node);
+                break;
+            default: return;
+        }
+    }
+    
+    /*
+     *  PackageMenu
+     **/
+    ,getPackageMenu: function(node){
+        return []
+    }
+    
+    /*
+     *  VehiclesMenu
+     **/
+    ,getVehiclesMenu: function(){
+        return [{
+            text: 'Create new vehicle'
+            ,handler: this.createVehicle
+        }]
+    }
+    
+    /*
+     *  SourcesMenu
+     **/
+    ,getSourcesMenu: function(node){
+        return [{
+            text: 'Add Media Source'
+            ,handler: this.addMediaSource
+        }]
+    }
+    
+    /*
+     *  PackageSourceMenu
+     **/
+    ,getPackageSourceMenu: function(node){
+        /*return [{
+            text: _('file_folder_create_here')
+            ,handler: this.createDirectory
+        }]*/
+    }
+    
+    
+    /*
+     *
+     **/
+    
+    /*
+     *  Vehicles
+     **/
+    ,createVehicle: function(item, e){
+        var node = this.cm && this.cm.activeNode ? this.cm.activeNode : false;
+        
+        var packageid = node.attributes.id.split('_')[2];
+        
+        var win = new MODx.Window({
+            tree: this
+            ,title: 'New vehicle'
+            ,modal: true
+            ,fields: [{
+                xtype: 'textfield'
+                ,fieldLabel: 'Vehicle name'
+                ,name: 'name'
+                ,width: 420
+                ,allowBlank: false
+            }]
+            ,url: modxSDK.config.connector_url + 'builder/package.php'
+            ,baseParams:{
+                packageid: packageid
+                ,action: 'vehicle/create'
+            }
+            ,success: function(){
+                this.tree.refresh();
+            }
+        });
+        win.on('hide', function(){
+            win.close();
+        });
+        win.show();
+    }
+    
+    /*
+     *  MediaSource
+     **/
+    ,addMediaSource: function(item, e){
+        var node = this.cm && this.cm.activeNode ? this.cm.activeNode : false;
+        
+        var packageid = node.attributes.id.split('_')[2];
+        
+        var win = new MODx.Window({
+            tree: this
+            ,title: 'Add Media Source'
+            ,modal: true
+            ,fields: [{
+                xtype: 'modx-combo-source'
+                ,fieldLabel: 'Media Source'
+                ,width: 420
+                ,allowBlank: false
+                ,hiddenName: 'sourceid'
+            }]
+            ,url: modxSDK.config.connector_url + 'builder/packagesource.php'
+            ,baseParams:{
+                packageid: packageid
+                ,action: 'create'
+            }
+            ,success: function(){
+                this.tree.refresh();
+            }
+        });
+        win.on('hide', function(){
+            win.close();
+        });
+        win.show();
+    }
+    
+    /*
+     *  beforenodedrop event
+     *  nodedragover event
+     **/
+    ,_handleDrop: function(dropEvent) {
+        /*if(n.getOwnerTree() === this){
+            return false;
+        }*/
+        
+        switch(dropEvent.target.attributes.type){
+            case 'vehicles':
+                return this._handleDropVehicles(dropEvent);
+                break;
+            default:;
+        }
+        
+        var n = dropEvent.dropNode; // the node that was dropped
+        
+        // Check allowed types
+        if(dropEvent.target.attributes.allowed_types && !dropEvent.target.attributes.allowed_types.in_array(n.attributes.type)){
+            return false;
+        }
+        
+        return true;
+    }
+    
+    ,_handleDrag: function(dropEvent) {
+        console.log(dropEvent.dropNode);
+        return true;
+        
+        function simplifyNodes(node) {
+            var resultNode = {};
+            var kids = node.childNodes;
+            var len = kids.length;
+            for (var i = 0; i < len; i++) {
+                resultNode[kids[i].id] = simplifyNodes(kids[i]);
+            }
+            return resultNode;
+        }
+        
+        
+        var encNodes = Ext.encode(simplifyNodes(dropEvent.tree.root));
+        this.fireEvent('beforeSort',encNodes);
+        MODx.Ajax.request({
+            url: this.config.url
+            ,params: {
+                data: encodeURIComponent(encNodes)
+                ,action: this.config.sortAction || 'sort'
+            }
+            ,listeners: {
+                'success': {fn:function(r) {
+                    var el = dropEvent.dropNode.getUI().getTextEl();
+                    if (el) {Ext.get(el).frame();}
+                    this.fireEvent('afterSort',{event:dropEvent,result:r});
+                },scope:this}
+                ,'failure': {fn:function(r) {
+                    MODx.form.Handler.errorJSON(r);
+                    this.refresh();
+                    return false;
+                },scope:this}
+            }
+        });
+    }
+    
+    ,_handleBeforeNodeDrop: function(e){
+        var n = e.dropNode; // the node that was dropped
+        // console.log(n);
+        // console.log(this); 
+        
+        var copy = new Ext.tree.TreeNode( // copy it
+        Ext.apply({}, n.attributes));
+        
+        e.dropNode = copy; // assign the copy as the new dropNode
+        
+        // var fields = [];
+        
+        //foreach()
+        
+        /*var win = new MODx.Window({
+            fields: fields
+        });
+        win.show();*/
+        
+        
+        /*e.cancel = true;
+        e.dropStatus = true;*/
+    }
+    
+    ,_handleDropVehicles: function(dropEvent){
+        /*if(!dropEvent.dropNode.getUI().hasClass('xPDOObject')){
+            console.log(dropEvent.dropNode.getUI());
+            return false;}*/
+        
+        if(!dropEvent.dropNode.attributes.cls.split(' ').in_array('xPDOObject')){
+            return false;
+        }
+        
+        return true;
+    }
+    
+    ,removePackage: function(item,e) {
+        var node = this.cm && this.cm.activeNode ? this.cm.activeNode : false;
+        var packageid = node.attributes.id.split('_')[2];
+        
+        var tree = this;
+        
+        MODx.msg.confirm({
+            text: "Remove this package?"
+            ,url: modxSDK.config.connector_url + 'builder/package.php'
+            ,params: {
+                action: 'remove'
+                ,id: packageid
+            }
+            ,listeners: {
+                'success': {fn:function() {
+                    tree.refresh();
+                }}
+            }
+        })
+    }
+    
+    ,createDirectory: function(item,e) {
+        var node = this.cm && this.cm.activeNode ? this.cm.activeNode : false;
+        var id = node.attributes.id;
+        var separator = id.indexOf('/');
+        var path = id.substr(separator);
+        var sourceid = id.substr(0, separator).split('_')[3];
+        
+        var r = {
+            'parent': node && node.attributes.type == 'dir' ? node.attributes.pathRelative : '/'
+            ,source: sourceid
+        };
+        var w = MODx.load({
+            xtype: 'modx-window-directory-create'
+            ,record: r
+            ,listeners: {
+                'success':{fn:this.refreshActiveNode,scope:this}
+                ,'hide':{fn:function() {this.destroy();}}
+            }
+        });
+        w.show(e ? e.target : Ext.getBody());
+    }
+    
+    
+    ,quickCreateFile: function(item,e) {
+        var node = this.cm.activeNode;
+        var id = node.attributes.id;
+        var separator = id.indexOf('/');
+        var path = id.substr(separator);
+        var sourceid = id.substr(0, separator).split('_')[3];
+        
+        var r = {
+            directory: path
+            ,source: sourceid
+        };
+        var w = MODx.load({
+            xtype: 'modx-window-file-quick-create'
+            ,record: r
+            ,listeners: {
+                'success':{fn:this.refreshActiveNode,scope:this}
+                ,'hide':{fn:function() {this.destroy();}}
+            }
+        });
+        w.show(e.target);
+    }
+    
+});
+
+Ext.reg('modxsdk-tree-builderobjectstree',modxSDK.tree.BuilderObjectsTree);
