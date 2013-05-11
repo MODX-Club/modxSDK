@@ -17,6 +17,7 @@ class ModxsdkFileMediaSource extends modFileMediaSource{
     public function getObjectsContainerList($path) { 
         
         $properties = $this->getPropertyList();
+        $imagesExts = explode(',', $this->getOption('imageExtensions',$properties,'jpg,jpeg,png,gif'));
         $path = $this->fileHandler->postfixSlash($path);
         $bases = $this->getBases($path);
         if (empty($bases['pathAbsolute'])) return array();
@@ -118,7 +119,7 @@ class ModxsdkFileMediaSource extends modFileMediaSource{
                     'type' => 'file',
                     'leaf' => false,
                     'qtip' => in_array($ext,$imagesExts) ? '<img src="'.$fromManagerUrl.'" alt="'.$fileName.'" />' : '',
-                    'page' => $this->fileHandler->isBinary($filePathName) ? $page : null,
+                    // 'page' => $this->fileHandler->isBinary($filePathName) ? $page : null,
                     'perms' => $octalPerms,
                     'path' => $bases['pathAbsoluteWithPath'].$fileName,
                     'pathRelative' => $bases['pathRelative'].$fileName,
@@ -127,7 +128,8 @@ class ModxsdkFileMediaSource extends modFileMediaSource{
                     'urlAbsolute' => $bases['urlAbsolute'].ltrim($url,'/'),
                     'file' => $encFile,
                     'menu' => array(),
-                );
+                    'source' => $encFile,
+                ); 
                 $files[$fileName]['menu'] = array('items' => $this->getListContextMenu($file,$files[$fileName]));
             }
         }
@@ -261,7 +263,7 @@ class ModxsdkFileMediaSource extends modFileMediaSource{
                     'type' => 'file',
                     'leaf' => true,
                     'qtip' => in_array($ext,$imagesExts) ? '<img src="'.$fromManagerUrl.'" alt="'.$fileName.'" />' : '',
-                    'page' => $this->fileHandler->isBinary($filePathName) ? $page : null,
+                    // 'page' => $this->fileHandler->isBinary($filePathName) ? $page : null,
                     'perms' => $octalPerms,
                     'path' => $bases['pathAbsoluteWithPath'].$fileName,
                     'pathRelative' => $bases['pathRelative'].$fileName,
@@ -270,6 +272,7 @@ class ModxsdkFileMediaSource extends modFileMediaSource{
                     'urlAbsolute' => $bases['urlAbsolute'].ltrim($url,'/'),
                     'file' => $encFile,
                     'menu' => array(),
+                    'source'    => $this->id,
                 );
                 $files[$fileName]['menu'] = array('items' => $this->getListContextMenu($file,$files[$fileName]));
             }

@@ -43,3 +43,11 @@
 /*.icon-societyblog.icon-folder .x-tree-node-icon {
 	background-image: url(../img/societyblog_page.png) !important;
 }*/
+
+
+/* Layout */
+#modxsdk-leftbar, #modxsdk-rightbar, #modxsdk-content{
+    position: absolute;
+}
+
+/* Eof Layout */

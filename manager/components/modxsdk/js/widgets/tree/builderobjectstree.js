@@ -17,7 +17,7 @@ modxSDK.tree.BuilderObjectsTree = function(config){
     
     Ext.applyIf(config,{
         url: modxSDK.config.connector_url + 'builder/objects.php'
-         
+        ,id: 'BuilderObjectsTree'
         ,baseParams: {
             hideFiles: config.hideFiles || false
             ,wctx: MODx.ctx || 'web'
@@ -25,8 +25,9 @@ modxSDK.tree.BuilderObjectsTree = function(config){
             ,currentFile: MODx.request.file || ''
             ,projectid: null
         }
-        ,title: 'New Project'
-        ,header:  true
+        ,autoHeight: true
+        ,title: 'Project: New Project'
+        ,header:  false
         ,autoScroll: true
         ,loaderConfig:{}
         ,rootVisible: false
@@ -73,6 +74,13 @@ Ext.extend(modxSDK.tree.BuilderObjectsTree, MODx.tree.Tree,{
         
     }
     
+    /*
+     * Получаем главную Tab-панель
+     **/
+    ,getTabLayout: function(){
+        return this.ownerCt;
+    }
+    
     ,getBaseParam: function(param){
         return this.baseParams[param];
     }
@@ -101,7 +109,7 @@ Ext.extend(modxSDK.tree.BuilderObjectsTree, MODx.tree.Tree,{
             ,success: function(frm, r){
                 try{
                     var object = r.result.object;
-                    this.tree.setTitle(object.name);
+                    this.setTitle(object.name);
                     this.tree.setBaseParam('projectid', object.id);
                     this.tree.refresh();
                 }
@@ -144,7 +152,7 @@ Ext.extend(modxSDK.tree.BuilderObjectsTree, MODx.tree.Tree,{
                 ,scope: this
                 ,handler: function(){
                     if(!ProjectsCombo.getRawValue()){return false;}
-                    this.setTitle(ProjectsCombo.getRawValue());
+                    this.setTitle("Project: " + ProjectsCombo.getRawValue());
                     this.setBaseParam('projectid', ProjectsCombo.getValue());
                     this.refresh();
                     win.close();
@@ -168,24 +176,30 @@ Ext.extend(modxSDK.tree.BuilderObjectsTree, MODx.tree.Tree,{
                 ,name: 'name'
                 ,width: 420
                 ,allowBlank: false
+                ,allowDecimals: false
             },{
-                xtype: 'textfield'
+                xtype: 'numberfield'
                 ,fieldLabel: 'Version major'
                 ,name: 'version_major'
                 ,width: 420
                 ,allowBlank: false
+                ,allowNegative: false
+                ,allowDecimals: false
             },{
-                xtype: 'textfield'
+                xtype: 'numberfield'
                 ,fieldLabel: 'Version minor'
                 ,name: 'version_minor'
                 ,width: 420
                 ,allowBlank: false
+                ,allowNegative: false
+                ,allowDecimals: false
             },{
-                xtype: 'textfield'
+                xtype: 'numberfield'
                 ,fieldLabel: 'Version patch'
                 ,name: 'version_minor'
                 ,width: 420
                 ,allowBlank: false
+                ,allowNegative: false
             },{
                 xtype: 'textfield'
                 ,fieldLabel: 'Version type'
@@ -543,6 +557,37 @@ Ext.extend(modxSDK.tree.BuilderObjectsTree, MODx.tree.Tree,{
         w.show(e.target);
     }
     
+    /*
+     * Событие на клик
+     **/
+    ,_handleClick: function (n,e) {
+        e.stopEvent();
+        e.preventDefault();
+        if (this.disableHref) {return true;}
+        if (e.ctrlKey) {return true;}
+        
+        console.log(n);
+        
+        if(n.attributes.type && n.attributes.type == 'file'){
+            this.openFile(n.attributes);
+            return;
+        }
+        
+        if (n.attributes.page && n.attributes.page !== '') {
+            MODx.loadPage(n.attributes.page);
+        } else {
+            n.toggle();
+        }
+        return true;
+    }
+    
+    ,openFile: function(filedata){
+        this.getTabLayout().openFile({
+            filename: filedata.text
+            ,file: filedata.pathRelative
+            ,source: filedata.source
+        });
+    }
 });
 
 Ext.reg('modxsdk-tree-builderobjectstree',modxSDK.tree.BuilderObjectsTree);

@@ -3,7 +3,10 @@ var modxSDK = function(config){
     modxSDK.superclass.constructor.call(this,config);
 };
 Ext.extend(modxSDK,Ext.Component,{
-    config: {}, tree: {}
+    config: {}
+    ,tree: {}
+    ,tabs: {}
+    ,panel: {}
 });
 Ext.reg('modxsdk',modxSDK);
 

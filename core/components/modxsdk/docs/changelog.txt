@@ -1,0 +1,9 @@
+modxSDK-1.1.0-beta
+=========================================
+- Added files editor
+
+modxSDK-1.0.0-beta
+=========================================
+- Base objects
+- Class navigator
+- Projects builder

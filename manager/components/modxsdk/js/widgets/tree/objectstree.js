@@ -4,6 +4,11 @@
 
 modxSDK.tree.ObjectsTree = function(config){ 
     config = config || {}; 
+      
+    
+    Ext.applyIf(config,{
+        source: MODx.config['modxsdk.default_source'] || 1
+    });
     
     Ext.applyIf(config,{
         url: modxSDK.config.connector_url + 'model/objects.php'
@@ -12,8 +17,10 @@ modxSDK.tree.ObjectsTree = function(config){
             ,wctx: MODx.ctx || 'web'
             ,currentAction: MODx.request.a || 0
             ,currentFile: MODx.request.file || ''
-            ,source: config.source || 0
+            ,source: config.source
         }
+        ,border: true
+        ,autoHeight: false
         ,loaderConfig:{}
         /*,dragConfig:{
             ddGroup: 'modx-treedrop-dd'
