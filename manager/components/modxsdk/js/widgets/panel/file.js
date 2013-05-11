@@ -5,9 +5,13 @@ modxSDK.panel.FileEdit = function(config){
         id: 'modxsdk-panel-fileedit',
         title: config.filename || 'file'
         ,url: modxSDK.config.connector_url + 'file/index.php'
-        ,height: 500
-        ,autoHeight: false
+        ,autoHeight: true
         ,border: true
+        ,tbar:[{
+            text: 'Save'
+            ,handler: this.save
+            ,scope: this
+        }]
         ,bbar:[{
             text: 'Save'
             ,handler: this.save
@@ -15,42 +19,50 @@ modxSDK.panel.FileEdit = function(config){
         }]
         ,aceTheme: MODx.config['modxsdk.ace_theme'] || "ace/theme/monokai"
     });
-    config.autoHeight = false;
-    
     
     modxSDK.panel.FileEdit.superclass.constructor.call(this,config);
     
-    
     this.config = config;
-     
     this.on('afterrender', this.initEditor);
     this.on('afterrender', this.loadSource);
-    
-    
 };
+
+
+
 Ext.extend(modxSDK.panel.FileEdit,Ext.Panel,{
     
-    
     initEditor: function(){
-        this.EditorContainer = new Ext.Panel({
-            bodyStyle: {
-                top: 0
-                ,left: 0
-                ,right: 0
-                ,bottom: 0
-                ,position: 'absolute'
+        this.EditorContainer = new Ext.form.TextArea({
+            value : '',
+            enableKeyEvents: true
+            ,listeners: {
+                keydown: function(editor, e){
+                    // On Ctrl+S
+                    if (e && e.ctrlKey && e.keyCode == 83) {
+                        e.stopEvent();
+                        this.save();
+                    }
+                }
+                ,scope: this
             }
-            ,bodyCfg:{
-                cls: 'editor'
-            }
+            
+            ,onRender : function(ct, position){
+                if(!this.el){
+                    this.defaultAutoCreate = {
+                        tag: "div",
+                        cls: "x-form-textarea",
+                        style:"width: 100%;height:300px;position:relative"
+                    };
+                }
+                Ext.form.TextField.superclass.onRender.call(this, ct, position);
+                var component = Ext.getCmp('modx-content');
+                if(component){
+                    this.setHeight(component.getHeight()-200);
+                }
+            },
         });
         this.add(this.EditorContainer);
     }
-    
-    ,setUpdater: function(){
-        this.getUpdater().on('beforeupdate', this.onBeforeUpdate)
-    }
-     
     
     ,loadSource: function(){
         
@@ -63,13 +75,13 @@ Ext.extend(modxSDK.panel.FileEdit,Ext.Panel,{
             }
             ,listeners: {
                 'success': {fn:function(r) {
-                    if(r.success){
+                    if(!r.success){
                         var msg = r.message || 'Error request';
                         MODx.msg.alert('Error', msg);
                         return;
                     }
                     
-                    this.editor = ace.edit(this.EditorContainer.body.dom);
+                    this.editor = ace.edit(this.EditorContainer.el.dom);
                     this.editor.setTheme( this.config.aceTheme);
                     
                     var basename = r.object.basename;
@@ -104,10 +116,8 @@ Ext.extend(modxSDK.panel.FileEdit,Ext.Panel,{
                     
                     this.editor.getSession().setMode(mode);
                     this.editor.setValue(r.object.content);
-                    // console.log(this.editor);
-                    
                 },scope:this}
-	        }
+            }
         });
     }
     
@@ -133,7 +143,7 @@ Ext.extend(modxSDK.panel.FileEdit,Ext.Panel,{
                         mask.hide();
                     } 
                 }
-	    }
+            }
         });
     }
 });

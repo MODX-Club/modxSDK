@@ -101,7 +101,7 @@ class ControllersMgrMainpanelManagerController extends modxSDKManagerController{
                 '.$state.'
                 var Config = ace.require("ace/config");
                 console.log(Config);
-                var acePath = MODx.config["manager_url"] + "components/modxsdk/libs/ace/src/";
+                var acePath = MODx.config["manager_url"] + "components/modxsdk/libs/ace/src-min/";
                 Config.set("modePath", acePath);
                 Config.set("themePath", acePath);
                 Config.set("workerPath", acePath);                
@@ -115,7 +115,7 @@ class ControllersMgrMainpanelManagerController extends modxSDKManagerController{
         parent::loadCustomCssJs();
         
         $assets_url = $this->getOption('assets_url');
-        $this->addJavascript($assets_url.'libs/ace/src/ace.js');
+        $this->addJavascript($assets_url.'libs/ace/src-min/ace.js');
         $this->addJavascript($assets_url.'js/modxsdk-layout.js');
         $this->addJavascript($assets_url.'js/modxsdk-layouttabs.js');
         $this->addJavascript($assets_url.'js/widgets/panel/file.js');

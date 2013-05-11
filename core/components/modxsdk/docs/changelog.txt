@@ -1,3 +1,13 @@
+modxSDK-1.2.4-beta
+=========================================
+- Added file editor autoheight
+- Switch Ace to min-version
+- Added Ctrl+S save event
+
+modxSDK-1.2.3-beta
+=========================================
+- Request bugfix
+
 modxSDK-1.2.2-beta
 =========================================
 - [#1] Bugfix with compress_js 
