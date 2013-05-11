@@ -1,3 +1,12 @@
+modxSDK-1.2.2-beta
+=========================================
+- [#1] Bugfix with compress_js 
+- More highlight modes
+
+modxSDK-1.2.1-beta
+=========================================
+- Minor bugfix
+
 modxSDK-1.2.0-beta
 =========================================
 - Bugfix with js-minify

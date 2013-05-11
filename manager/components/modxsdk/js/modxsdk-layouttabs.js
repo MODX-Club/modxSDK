@@ -12,7 +12,7 @@ modxSDK.tabs.Layouttabs = function(config){
         ,autoHeight: true
     });
     
-    modxSDK.tabs.Layouttabs.superclass.constructor.call(this,config); ;
+    modxSDK.tabs.Layouttabs.superclass.constructor.call(this,config);
 };
 Ext.extend(modxSDK.tabs.Layouttabs, MODx.Tabs,{
     

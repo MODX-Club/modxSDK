@@ -20,6 +20,15 @@ class ControllersMgrMainpanelManagerController extends modxSDKManagerController{
         return 'mainpanel/index.tpl';
     }    
     
+    public function initialize(){
+        $this->modx->getVersionData();
+        $modxVersion = $this->modx->version['full_version'];
+    
+        if (!version_compare($modxVersion, '2.2.6', '>=')) {
+            return $this->failure("MODX 2.2.6 or highter required");
+        }
+        return parent::initialize();
+    }
     
     public function registerBaseScripts() {
         $managerUrl = $this->modx->getOption('manager_url');
@@ -90,7 +99,13 @@ class ControllersMgrMainpanelManagerController extends modxSDKManagerController{
             } else { $state = ''; }
             $o .= '<script type="text/javascript">Ext.onReady(function() {
                 '.$state.'
-    MODx.load({xtype: "modxsdk-layout",accordionPanels: MODx.accordionPanels || [],auth: "'.$siteId.'"});
+                var Config = ace.require("ace/config");
+                console.log(Config);
+                var acePath = MODx.config["manager_url"] + "components/modxsdk/libs/ace/src/";
+                Config.set("modePath", acePath);
+                Config.set("themePath", acePath);
+                Config.set("workerPath", acePath);                
+                MODx.load({xtype: "modxsdk-layout",accordionPanels: MODx.accordionPanels || [],auth: "'.$siteId.'"});
 });</script>';
             $this->modx->smarty->assign('maincssjs',$o);
         }
@@ -106,24 +121,6 @@ class ControllersMgrMainpanelManagerController extends modxSDKManagerController{
         $this->addJavascript($assets_url.'js/widgets/panel/file.js');
         $this->addJavascript($assets_url.'js/widgets/tree/objectstree.js');
         $this->addJavascript($assets_url.'js/widgets/tree/builderobjectstree.js');
-        
-        /*$source = $this->modx->getOption('modxsdk.default_source', null, 0);
-        
-        $this->addJavascript($this->config['manager_url'].'js/modxsdk.js');
-        $this->addJavascript($this->config['manager_url'].'js/widgets/tree/objectstree.js');
-        $this->addJavascript($this->config['manager_url'].'js/widgets/tree/builderobjectstree.js');
-        $this->addJavascript($this->config['manager_url'].'js/widgets/panel.js');
-        $this->addHtml('<script type="text/javascript">
-        Ext.onReady(function() {
-            modxSDK.config = '. $this->modx->toJSON($this->config).';
-                
-            new modxSDK.Panel({
-                renderTo: Ext.get("modxsdk-container")
-                ,source: "'.$source.'"
-            });
-        });
-        </script>');*/
-        
         return;
     }
     

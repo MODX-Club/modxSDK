@@ -63,7 +63,7 @@ Ext.extend(modxSDK.panel.FileEdit,Ext.Panel,{
             }
             ,listeners: {
                 'success': {fn:function(r) {
-                    if(r.success != true){
+                    if(r.success){
                         var msg = r.message || 'Error request';
                         MODx.msg.alert('Error', msg);
                         return;
@@ -76,12 +76,30 @@ Ext.extend(modxSDK.panel.FileEdit,Ext.Panel,{
                     var ext_arr = basename.split('.');
                     var ext = ext_arr[ext_arr.length-1];
                    
-                    var mode = "ace/mode/php";
+                    var mode = "ace/mode/text";
                     switch(ext){
                         case 'js':
                             mode = 'ace/mode/javascript';
                             break;
-                        default:;
+                        case 'css':
+                            mode = 'ace/mode/css';
+                            break;
+                        case 'php':
+                            mode = 'ace/mode/php';
+                            break;
+                        case 'sql':
+                            mode = 'ace/mode/sql';
+                            break;
+                        case 'htm':
+                        case 'html':
+                            mode = 'ace/mode/html';
+                            break;
+                        case 'json':
+                            mode = 'ace/mode/json';
+                            break;
+                        case 'xml':
+                            mode = 'ace/mode/xml';
+                            break;
                     }
                     
                     this.editor.getSession().setMode(mode);
@@ -89,7 +107,7 @@ Ext.extend(modxSDK.panel.FileEdit,Ext.Panel,{
                     // console.log(this.editor);
                     
                 },scope:this}
-	    }
+	        }
         });
     }
     
