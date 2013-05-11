@@ -100,7 +100,7 @@ class ControllersMgrMainpanelManagerController extends modxSDKManagerController{
         parent::loadCustomCssJs();
         
         $assets_url = $this->getOption('assets_url');
-        $this->addJavascript('http://rawgithub.com/ajaxorg/ace-builds/master/src-noconflict/ace.js');
+        $this->addJavascript($assets_url.'libs/ace/src/ace.js');
         $this->addJavascript($assets_url.'js/modxsdk-layout.js');
         $this->addJavascript($assets_url.'js/modxsdk-layouttabs.js');
         $this->addJavascript($assets_url.'js/widgets/panel/file.js');

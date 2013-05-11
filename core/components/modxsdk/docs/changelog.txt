@@ -1,3 +1,8 @@
+modxSDK-1.2.0-beta
+=========================================
+- Bugfix with js-minify
+- Added local Ace lib
+
 modxSDK-1.1.0-beta
 =========================================
 - Added files editor
