@@ -1,3 +1,8 @@
+modxSDK-1.3.1-beta
+=========================================
+- Bugfix create new package
+- Ace minor bugfix
+
 modxSDK-1.3.0-beta
 =========================================
 - Added Vapor. Create and download packages available. (Just files yet)

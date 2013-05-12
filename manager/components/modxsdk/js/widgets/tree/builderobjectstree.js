@@ -196,7 +196,7 @@ Ext.extend(modxSDK.tree.BuilderObjectsTree, MODx.tree.Tree,{
             },{
                 xtype: 'numberfield'
                 ,fieldLabel: 'Version patch'
-                ,name: 'version_minor'
+                ,name: 'version_patch'
                 ,width: 420
                 ,allowBlank: false
                 ,allowNegative: false
