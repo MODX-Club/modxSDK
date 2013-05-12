@@ -1,3 +1,7 @@
+modxSDK-1.3.0-beta
+=========================================
+- Added Vapor. Create and download packages available. (Just files yet)
+
 modxSDK-1.2.4-beta
 =========================================
 - Added file editor autoheight

@@ -3,6 +3,30 @@ class ModxsdkPackage extends xPDOSimpleObject {
     
     public function prepareNode(){
         $version = $this->getVersion();
+        
+        $menus = array();
+        
+        if($this->xpdo->hasPermission('modxsdk_make_package')){
+            $menus[] = array(
+                'text' => 'Make package',
+                'handler' => 'this.makePackage',
+            );
+        }
+        
+        if($this->xpdo->hasPermission('modxsdk_download_packages')){
+            $menus[] = array(
+                'text' => 'Make and download package',
+                'handler' => 'this.makeAndDownloadPackage',
+            );
+        }
+        
+        if($this->xpdo->hasPermission('modxsdk_remove_package')){
+            $menus[] = array(
+                'text' => 'Remove package',
+                'handler' => 'this.removePackage',
+            );
+        }
+        
         $node = array(
             'id'    => "n_package_". $this->get('id'),
             'text'  => $this->get('name')."-{$version}",
@@ -11,12 +35,7 @@ class ModxsdkPackage extends xPDOSimpleObject {
             'type'  => 'package',
             'allowDrop' => false,
             'menu'  => array(
-                'items' => array(
-                    array(
-                        'text' => 'Remove package',
-                        'handler' => 'this.removePackage'
-                    )
-                ),
+                'items' => $menus,
             ),
         );
         return $node;

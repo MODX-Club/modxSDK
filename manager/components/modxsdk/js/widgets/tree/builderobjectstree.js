@@ -491,11 +491,21 @@ Ext.extend(modxSDK.tree.BuilderObjectsTree, MODx.tree.Tree,{
         return true;
     }
     
-    ,removePackage: function(item,e) {
+    ,getPackageId: function(){
         var node = this.cm && this.cm.activeNode ? this.cm.activeNode : false;
         var packageid = node.attributes.id.split('_')[2];
-        
-        var tree = this;
+        if(!packageid){
+            MODx.msg.alert('Error', 'Could not get Package id');
+            return false;
+        }
+        return packageid;
+    }
+    
+    ,removePackage: function(item,e) {
+        var packageid = this.getPackageId();
+        if(!packageid){
+            return;
+        }
         
         MODx.msg.confirm({
             text: "Remove this package?"
@@ -506,11 +516,78 @@ Ext.extend(modxSDK.tree.BuilderObjectsTree, MODx.tree.Tree,{
             }
             ,listeners: {
                 'success': {fn:function() {
-                    tree.refresh();
-                }}
+                    this.refresh();
+                }, scope: this}
             }
         })
     }
+    
+    ,makePackage: function(item,e) {
+        var packageid = this.getPackageId();
+        if(!packageid){
+            return;
+        }
+        var mask = new Ext.LoadMask(Ext.getBody());
+        mask.show();
+        MODx.Ajax.request({
+            url: modxSDK.config.connector_url + 'vapor/index.php'
+            ,params: {
+                action: 'package/createPackage'
+                ,package_id: packageid
+            }
+            ,listeners: {
+                'success': {fn:function(r) {
+                        mask.hide();
+                        MODx.msg.alert('Info', r.message);
+                    }, 
+                    scope: this
+                }
+                ,'failure': {fn:function(r) {
+                        mask.hide();
+                        MODx.msg.alert('Error', 'Request failed');
+                    }, 
+                    scope: this
+                }
+            }
+        })
+    }
+    
+    ,makeAndDownloadPackage: function(item,e) {
+        var packageid = this.getPackageId();
+        if(!packageid){
+            return;
+        }
+        var mask = new Ext.LoadMask(Ext.getBody());
+        mask.show();
+        MODx.Ajax.request({
+            url: modxSDK.config.connector_url + 'vapor/index.php'
+            ,params: {
+                action: 'package/createPackage'
+                ,package_id: packageid
+            }
+            ,listeners: {
+                'success': {fn:function(r) {
+                        mask.hide();
+                        if(r.object && r.object.signature){
+                            location.href = modxSDK.config.connector_url+'builder/package.php?action=download&download=1&signature='+r.object.signature+'&HTTP_MODAUTH='+MODx.siteId+'&wctx='+MODx.ctx;
+                        }
+                        else{
+                            MODx.msg.alert('Error', 'Could not get package sugnature');
+                        }
+                    }, 
+                    scope: this,
+                }
+                ,'failure': {fn:function(r) {
+                        mask.hide();
+                        MODx.msg.alert('Error', 'Request failed');
+                    }, 
+                    scope: this
+                }
+            }
+        })
+    }
+    
+    
     
     ,createDirectory: function(item,e) {
         var node = this.cm && this.cm.activeNode ? this.cm.activeNode : false;

@@ -100,7 +100,6 @@ class ControllersMgrMainpanelManagerController extends modxSDKManagerController{
             $o .= '<script type="text/javascript">Ext.onReady(function() {
                 '.$state.'
                 var Config = ace.require("ace/config");
-                console.log(Config);
                 var acePath = MODx.config["manager_url"] + "components/modxsdk/libs/ace/src-min/";
                 Config.set("modePath", acePath);
                 Config.set("themePath", acePath);
