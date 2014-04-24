@@ -40,18 +40,18 @@ modxSDK.tree.BuilderObjectsTree = function(config){
         }
         ,useDefaultToolbar: true
         ,tbar: [{
-            text: 'Create project'
-            ,tooltip: {text: 'Create new project'}
+            text: _('modxsdk_create_project')
+            ,tooltip: {text: _('modxsdk_create_new_project')}
             ,handler: this.createProject
             ,scope: this
         },'-',{
-            text: 'Select project'
-            ,tooltip: {text: 'Select existing project'}
+            text: _('modxsdk_select_project')
+            ,tooltip: {text: _('modxsdk_select_existing_project')}
             ,handler: this.selectProject
             ,scope: this
         },'-',{
-            text: 'Create package'
-            ,tooltip: {text: 'Create new package'}
+            text: _('modxsdk_create_package')
+            ,tooltip: {text: _('modxsdk_create_new_package')}
             ,handler: this.createProjectPackage
             ,scope: this
         }]
@@ -95,11 +95,11 @@ Ext.extend(modxSDK.tree.BuilderObjectsTree, MODx.tree.Tree,{
     ,createProject: function(){
         var win = new MODx.Window({
             tree: this
-            ,title: 'New project'
+            ,title: _('modxsdk_new_project')
             ,modal: true
             ,fields: [{
                 xtype: 'textfield'
-                ,fieldLabel: 'Project name'
+                ,fieldLabel: _('modxsdk_project_name')
                 ,name: 'name'
                 ,width: 420
                 ,allowBlank: false
@@ -131,7 +131,7 @@ Ext.extend(modxSDK.tree.BuilderObjectsTree, MODx.tree.Tree,{
     ,selectProject: function(){
         
         var ProjectsCombo = new MODx.combo.ComboBox({
-            fieldLabel: 'Projects'
+            fieldLabel: _('modxsdk_projects')
             ,xtype: 'modx-combo'
             ,width: 300
             ,allowBlank: false
@@ -140,7 +140,7 @@ Ext.extend(modxSDK.tree.BuilderObjectsTree, MODx.tree.Tree,{
         });
         
         var win = new MODx.Window({
-            title: 'SelectProject'
+            title: _('modxsdk_selecting_project')
             ,width: 330
             ,fields:[ProjectsCombo] 
             ,buttons: [{
@@ -168,18 +168,18 @@ Ext.extend(modxSDK.tree.BuilderObjectsTree, MODx.tree.Tree,{
     ,createProjectPackage: function(){
         var win = new MODx.Window({
             tree: this
-            ,title: 'New package'
+            ,title: _('modxsdk_new_package')
             ,modal: true
             ,fields: [{
                 xtype: 'textfield'
-                ,fieldLabel: 'Package name'
+                ,fieldLabel: _('modxsdk_package_name')
                 ,name: 'name'
                 ,width: 420
                 ,allowBlank: false
                 ,allowDecimals: false
             },{
                 xtype: 'numberfield'
-                ,fieldLabel: 'Version major'
+                ,fieldLabel: _('modxsdk_version_major')
                 ,name: 'version_major'
                 ,width: 420
                 ,allowBlank: false
@@ -187,7 +187,7 @@ Ext.extend(modxSDK.tree.BuilderObjectsTree, MODx.tree.Tree,{
                 ,allowDecimals: false
             },{
                 xtype: 'numberfield'
-                ,fieldLabel: 'Version minor'
+                ,fieldLabel: _('modxsdk_version_minor')
                 ,name: 'version_minor'
                 ,width: 420
                 ,allowBlank: false
@@ -195,14 +195,14 @@ Ext.extend(modxSDK.tree.BuilderObjectsTree, MODx.tree.Tree,{
                 ,allowDecimals: false
             },{
                 xtype: 'numberfield'
-                ,fieldLabel: 'Version patch'
+                ,fieldLabel: _('modxsdk_version_patch')
                 ,name: 'version_patch'
                 ,width: 420
                 ,allowBlank: false
                 ,allowNegative: false
             },{
                 xtype: 'textfield'
-                ,fieldLabel: 'Version type'
+                ,fieldLabel: _('modxsdk_version_type')
                 ,name: 'version_type'
                 ,width: 420
                 ,allowBlank: false
@@ -293,7 +293,7 @@ Ext.extend(modxSDK.tree.BuilderObjectsTree, MODx.tree.Tree,{
      **/
     ,getVehiclesMenu: function(){
         return [{
-            text: 'Create new vehicle'
+            text: _('modxsdk_create_new_vehicle')
             ,handler: this.createVehicle
         }]
     }
@@ -303,7 +303,7 @@ Ext.extend(modxSDK.tree.BuilderObjectsTree, MODx.tree.Tree,{
      **/
     ,getSourcesMenu: function(node){
         return [{
-            text: 'Add Media Source'
+            text: _('modxsdk_add_media_source')
             ,handler: this.addMediaSource
         }]
     }
@@ -333,11 +333,11 @@ Ext.extend(modxSDK.tree.BuilderObjectsTree, MODx.tree.Tree,{
         
         var win = new MODx.Window({
             tree: this
-            ,title: 'New vehicle'
+            ,title: _('modxsdk_new_vehicle')
             ,modal: true
             ,fields: [{
                 xtype: 'textfield'
-                ,fieldLabel: 'Vehicle name'
+                ,fieldLabel: _('modxsdk_vehicle_name')
                 ,name: 'name'
                 ,width: 420
                 ,allowBlank: false
@@ -367,11 +367,11 @@ Ext.extend(modxSDK.tree.BuilderObjectsTree, MODx.tree.Tree,{
         
         var win = new MODx.Window({
             tree: this
-            ,title: 'Add Media Source'
+            ,title: _('modxsdk_adding_media_source')
             ,modal: true
             ,fields: [{
                 xtype: 'modx-combo-source'
-                ,fieldLabel: 'Media Source'
+                ,fieldLabel: _('modxsdk_media_source')
                 ,width: 420
                 ,allowBlank: false
                 ,hiddenName: 'sourceid'
@@ -508,7 +508,7 @@ Ext.extend(modxSDK.tree.BuilderObjectsTree, MODx.tree.Tree,{
         }
         
         MODx.msg.confirm({
-            text: "Remove this package?"
+            text: _('modxsdk_remove_this_package')
             ,url: modxSDK.config.connector_url + 'builder/package.php'
             ,params: {
                 action: 'remove'
