@@ -8,12 +8,12 @@ modxSDK.panel.FileEdit = function(config){
         ,autoHeight: true
         ,border: true
         ,tbar:[{
-            text: 'Save'
+            text: _('save')
             ,handler: this.save
             ,scope: this
         }]
         ,bbar:[{
-            text: 'Save'
+            text: _('save')
             ,handler: this.save
             ,scope: this
         }]

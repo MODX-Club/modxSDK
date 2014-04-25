@@ -1,4 +1,26 @@
 <?php
-
 $_lang['modxsdk'] = 'MODX SDK';
-$_lang['modxsdk_desc'] = 'MODX development environment'; 
+$_lang['modxsdk_desc'] = 'MODX development environment';
+$_lang['modxsdk_create_project'] = 'Create project';
+$_lang['modxsdk_select_project'] = 'Select project';
+$_lang['modxsdk_create_package'] = 'Create package';
+$_lang['modxsdk_create_new_project'] = 'Create new project';
+$_lang['modxsdk_select_existing_project'] = 'Select existing project';
+$_lang['modxsdk_create_new_package'] = 'Create new package';
+$_lang['modxsdk_new_project'] = 'New project';
+$_lang['modxsdk_project_name'] = 'Project name';
+$_lang['modxsdk_projects'] = 'Projects';
+$_lang['modxsdk_selecting_project'] = 'Selecting project';
+$_lang['modxsdk_new_package'] = 'New package';
+$_lang['modxsdk_package_name'] = 'Package name';
+$_lang['modxsdk_version_major'] = 'Version major';
+$_lang['modxsdk_version_minor'] = 'Version minor';
+$_lang['modxsdk_version_patch'] = 'Version patch';
+$_lang['modxsdk_version_type'] = 'Version type';
+$_lang['modxsdk_create_new_vehicle'] = 'Create new vehicle';
+$_lang['modxsdk_media_source'] = 'Media Source';
+$_lang['modxsdk_add_media_source'] = 'Add Media Source';
+$_lang['modxsdk_adding_media_source'] = 'Addind Media Source';
+$_lang['modxsdk_new_vehicle'] = 'New vehicle';
+$_lang['modxsdk_vehicle_name'] = 'Vehicle name';
+$_lang['modxsdk_remove_this_package'] = 'Remove this package?';

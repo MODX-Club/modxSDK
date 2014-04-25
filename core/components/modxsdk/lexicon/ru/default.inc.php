@@ -1,5 +1,26 @@
 <?php
-
 $_lang['modxsdk'] = 'MODX SDK';
 $_lang['modxsdk_desc'] = 'Среда разработки MODX';
-
+$_lang['modxsdk_create_project'] = 'Создать проект';
+$_lang['modxsdk_select_project'] = 'Выбрать проект';
+$_lang['modxsdk_create_package'] = 'Создать пакет';
+$_lang['modxsdk_create_new_project'] = 'Создать новый проект';
+$_lang['modxsdk_select_existing_project'] = 'Выбрать существующий проект';
+$_lang['modxsdk_create_new_package'] = 'Создать новый пакет';
+$_lang['modxsdk_new_project'] = 'Создание проекта';
+$_lang['modxsdk_project_name'] = 'Название проекта';
+$_lang['modxsdk_projects'] = 'Проекты';
+$_lang['modxsdk_selecting_project'] = 'Выбор проекта';
+$_lang['modxsdk_new_package'] = 'Новый пакет';
+$_lang['modxsdk_package_name'] = 'Название пакета';
+$_lang['modxsdk_version_major'] = 'Номер мажорной версии';
+$_lang['modxsdk_version_minor'] = 'Номер минорной версии';
+$_lang['modxsdk_version_patch'] = 'Номер патча';
+$_lang['modxsdk_version_type'] = 'Тип версии';
+$_lang['modxsdk_create_new_vehicle'] = 'Создать новый транспортный пакет';
+$_lang['modxsdk_media_source'] = 'Источник файлов';
+$_lang['modxsdk_add_media_source'] = 'Добавить источник файлов';
+$_lang['modxsdk_adding_media_source'] = 'Добавление источника файлов';
+$_lang['modxsdk_new_vehicle'] = 'Новый транспортный пакет';
+$_lang['modxsdk_vehicle_name'] = 'Название транспортного пакета';
+$_lang['modxsdk_remove_this_package'] = 'Удалить этот пакет?';

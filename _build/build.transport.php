@@ -1,7 +1,7 @@
 <?php
 
 $pkg_name = 'modxSDK';
-    
+
 /* define package */
 define('PKG_NAME', $pkg_name);
 define('PKG_NAME_LOWER',strtolower(PKG_NAME));
@@ -10,7 +10,7 @@ define('NAMESPACE_NAME', PKG_NAME_LOWER);
 define('PKG_PATH', PKG_NAME_LOWER);
 define('PKG_CATEGORY', PKG_NAME);
 
-$pkg_version = '1.3.2';
+$pkg_version = '1.3.3';
 $pkg_release = 'beta';
 define('PKG_VERSION', $pkg_version); 
 define('PKG_RELEASE', $pkg_release); 

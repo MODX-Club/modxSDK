@@ -1,3 +1,7 @@
+modxSDK-1.3.3-beta
+=========================================
+- Added lexicons and translates
+
 modxSDK-1.3.2-beta
 =========================================
 - Added HTML highlight for tpl extension
