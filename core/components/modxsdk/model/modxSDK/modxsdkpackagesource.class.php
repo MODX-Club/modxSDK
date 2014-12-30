@@ -9,20 +9,28 @@ class ModxsdkPackagesource extends xPDOObject {
         }
         
         $packageid = $this->get('packageid');
-        $sourceid = $this->get('sourceid');
+        $sourceid = $this->get('sourceid'); 
         
         $node = array(
             'id'    => "n_packagesource_{$packageid}_{$sourceid}/",
             'text'  => $source->get('name'),
             'qtip'  => $source->get('description'),
             'leaf'  => false,
-            'cls'   => 'modxsdk-packagesource-icon',
+            # 'cls'   => 'modxsdk-packagesource-icon',
             'type'  => 'packagesource',
             'allowed_types'  => array(
                 'dir',
                 'file',
             ),
         );
+        
+        if(version_compare($this->xpdo->getVersionData()['full_version'], "2.3")){
+            $node['iconCls'] = 'icon-folder';
+        }
+        else{
+            $node['cls'] = 'modxsdk-packagesource-icon';
+        }
+        
         return $node;
     }
     

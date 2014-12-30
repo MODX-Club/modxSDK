@@ -1,6 +1,8 @@
 <?php
 
-class modxSDKManagerController extends modExtraManagerController{
+# die(__FILE__);
+
+class ModxsdkIndexManagerController extends modExtraManagerController{
     
     function __construct(modX &$modx, $config = array()) {
         parent::__construct($modx, $config);
@@ -10,9 +12,10 @@ class modxSDKManagerController extends modExtraManagerController{
         $this->config['connector_url'] = $this->config['manager_url'].'connectors/mgr/';
     }
     
-    public static function getInstance(modX &$modx, $className, array $config = array()) {
-        return parent::getInstance($modx, __CLASS__ , $config);
-    }
+    # public static function getInstance(modX &$modx, $className, array $config = array()) {
+    #     # die(__CLASS__);
+    #     return parent::getInstance($modx, __CLASS__ , $config);
+    # }
     
     public function getOption($key, $options = null, $default = null, $skipEmpty = false){
         $options = array_merge($this->config, (array)$options);
@@ -43,15 +46,9 @@ class modxSDKManagerController extends modExtraManagerController{
         return;
     }
     
-    
-    public function getTemplatesPaths($coreOnly = false) {
-        $paths = parent::getTemplatesPaths($coreOnly);
-        $paths[] = $this->config['namespace_path']."templates/default/";
-        return $paths;
-    }
-    
-    public function getTemplateFile() {
-        return 'index.tpl';
-    }
+     
+    # public function getTemplateFile() {
+    #     return '';
+    # } 
 }
 ?>
