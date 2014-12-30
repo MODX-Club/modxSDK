@@ -10,7 +10,7 @@ $action->fromArray(array(
     'id' => 1,
     'namespace' => NAMESPACE_NAME,
     'parent' => 0,
-    'controller' => 'controllers/mgr/mainpanel/',
+    'controller' => 'controllers/',
     'haslayout' => 1,
     'lang_topics' => 'modxsdk:default',
     'assets' => '',

@@ -14,7 +14,7 @@ class ModxsdkFileMediaSource extends modFileMediaSource{
      * Get objects list
      */
     
-    public function getObjectsContainerList($path) { 
+    public function __getObjectsContainerList($path) { 
         
         $properties = $this->getPropertyList();
         $imagesExts = explode(',', $this->getOption('imageExtensions',$properties,'jpg,jpeg,png,gif'));
@@ -203,35 +203,47 @@ class ModxsdkFileMediaSource extends modFileMediaSource{
 
             /* handle dirs */
             $cls = array();
-            if ($file->isDir() && $this->hasPermission('directory_list')) {
-                $cls[] = 'folder';
-                if ($this->hasPermission('directory_chmod') && $canSave) $cls[] = 'pchmod';
-                if ($this->hasPermission('directory_create') && $canCreate) $cls[] = 'pcreate';
-                if ($this->hasPermission('directory_remove') && $canRemove) $cls[] = 'premove';
-                if ($this->hasPermission('directory_update') && $canSave) $cls[] = 'pupdate';
-                if ($this->hasPermission('file_upload') && $canCreate) $cls[] = 'pupload';
-                if ($this->hasPermission('file_create') && $canCreate) $cls[] = 'pcreate';
-
-                $directories[$fileName] = array(
-                    'id' => "n_dir_{$packageid}_{$sourceid}/". $bases['urlRelative'].rtrim($fileName,'/').'/',
-                    'text' => $fileName,
-                    'cls' => implode(' ',$cls),
-                    'type' => 'dir',
-                    'leaf' => false,
-                    'path' => $bases['pathAbsoluteWithPath'].$fileName,
-                    'pathRelative' => $bases['pathRelative'].$fileName,
-                    'perms' => $octalPerms,
-                    'menu' => array(),
-                    'allowed_types'  => array(
-                        'file',
-                        'dir',
-                    ),
-                );
-                $directories[$fileName]['menu'] = array('items' => $this->getPackageSourceListContextMenu($file,$directories[$fileName]));
+            if ($file->isDir()) {
+                if($this->hasPermission('directory_list')){
+                    $cls[] = 'folder icon-folder';
+                    if ($this->hasPermission('directory_chmod') && $canSave) $cls[] = 'pchmod';
+                    if ($this->hasPermission('directory_create') && $canCreate) $cls[] = 'pcreate';
+                    if ($this->hasPermission('directory_remove') && $canRemove) $cls[] = 'premove';
+                    if ($this->hasPermission('directory_update') && $canSave) $cls[] = 'pupdate';
+                    if ($this->hasPermission('file_upload') && $canCreate) $cls[] = 'pupload';
+                    if ($this->hasPermission('file_create') && $canCreate) $cls[] = 'pcreate';
+                    
+                    $classes = implode(' ',$cls);
+                    
+                    $directories[$fileName] = array(
+                        'id' => "n_dir_{$packageid}_{$sourceid}/". $bases['urlRelative'].rtrim($fileName,'/').'/',
+                        'text' => $fileName,
+                        # 'cls' => implode(' ',$cls),
+                        'type' => 'dir',
+                        'leaf' => false,
+                        'path' => $bases['pathAbsoluteWithPath'].$fileName,
+                        'pathRelative' => $bases['pathRelative'].$fileName,
+                        'perms' => $octalPerms,
+                        'menu' => array(),
+                        'allowed_types'  => array(
+                            'file',
+                            'dir',
+                        ),
+                    );
+                    
+                    if(version_compare($this->xpdo->getVersionData()['full_version'], "2.3")){
+                        $directories[$fileName]['iconCls'] = $classes;
+                    }
+                    else{
+                        $directories[$fileName]['cls'] = $classes;
+                    }
+                    
+                    $directories[$fileName]['menu'] = array('items' => $this->getPackageSourceListContextMenu($file,$directories[$fileName]));
+                }
             }
 
             /* get files in current dir */
-            if ($file->isFile() && !$hideFiles && $this->hasPermission('file_list')) {
+            else if ($file->isFile() && !$hideFiles && $this->hasPermission('file_list')) {
                 $ext = pathinfo($filePathName,PATHINFO_EXTENSION);
                 $ext = $useMultibyte ? mb_strtolower($ext,$encoding) : strtolower($ext);
 
@@ -256,10 +268,13 @@ class ModxsdkFileMediaSource extends modFileMediaSource{
                 /* get relative url from manager/ */
                 $fromManagerUrl = $bases['url'].trim(str_replace('//','/',$path.$fileName),'/');
                 $fromManagerUrl = ($bases['urlIsRelative'] ? '../' : '').$fromManagerUrl;
+                
+                $classes = implode(' ',$cls);
+                
                 $files[$fileName] = array(
                     'id' => $bases['urlRelative'].$fileName,
                     'text' => $fileName,
-                    'cls' => implode(' ',$cls),
+                    # 'cls' => implode(' ',$cls),
                     'type' => 'file',
                     'leaf' => true,
                     'qtip' => in_array($ext,$imagesExts) ? '<img src="'.$fromManagerUrl.'" alt="'.$fileName.'" />' : '',
@@ -274,6 +289,14 @@ class ModxsdkFileMediaSource extends modFileMediaSource{
                     'menu' => array(),
                     'source'    => $this->id,
                 );
+                    
+                if(version_compare($this->xpdo->getVersionData()['full_version'], "2.3")){
+                    $files[$fileName]['iconCls'] = $classes;
+                }
+                else{
+                    $files[$fileName]['cls'] = $classes;
+                }
+                
                 $files[$fileName]['menu'] = array('items' => $this->getListContextMenu($file,$files[$fileName]));
             }
         }
@@ -293,7 +316,7 @@ class ModxsdkFileMediaSource extends modFileMediaSource{
     }    
     
     
-    public function getFileInfo($path){
+    public function __getFileInfo($path){
         // print '<pre>';
         $nodes = array();
         if(!$info = $this->getObjectContents($path)){
@@ -355,7 +378,7 @@ class ModxsdkFileMediaSource extends modFileMediaSource{
         return $nodes;
     }
     
-    public function getClassInfo($path, $className){
+    public function __getClassInfo($path, $className){
         $nodes = array(); 
         
         if(!$className || !$path){
@@ -564,7 +587,7 @@ class ModxsdkFileMediaSource extends modFileMediaSource{
         return $menu;
     }
     
-    static public function getClassAbsoluteParent(xPDO & $xpdo, $className){
+    static public function __getClassAbsoluteParent(xPDO & $xpdo, $className){
         if(!$className){return false;}
         if(!class_exists($className) && !$xpdo->loadClass($className)){
             return false;
@@ -572,7 +595,7 @@ class ModxsdkFileMediaSource extends modFileMediaSource{
         return self::_getClassAbsoluteParent($className);
     }
     
-    static public function _getClassAbsoluteParent($className){
+    static public function ___getClassAbsoluteParent($className){
         if(!$parent = get_parent_class($className)){
             return false;
         }

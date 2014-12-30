@@ -6,8 +6,26 @@
         Purpose of the stylesheet follows.
 */
 
-.modxsdk-class-icon .x-tree-node-icon {
+.modxsdk-class-icon.icon:before
+,.modxsdk-package-icon.icon:before
+{
+    content: " ";
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+}
+
+
+.modxsdk-class-icon .x-tree-node-icon 
+,.modxsdk-class-icon.icon:before
+{
 	background-image: url(../img/icons/16x16/class-icon.png) !important;
+}
+
+.modxsdk-package-icon .x-tree-node-icon
+,.modxsdk-package-icon.icon:before
+{
+    background-image: url(../img/icons/16x16/package-icon.png) !important;
 }
 
 .modxsdk-method-icon .x-tree-node-icon {
@@ -24,10 +42,6 @@
 
 .modxsdk-var-icon .x-tree-node-icon {
 	background-image: url(../img/icons/16x16/var-icon.png) !important;
-}
-
-.modxsdk-package-icon .x-tree-node-icon {
-	background-image: url(../img/icons/16x16/package-icon.png) !important;
 }
 
 .modxsdk-vehicles-icon .x-tree-node-icon {

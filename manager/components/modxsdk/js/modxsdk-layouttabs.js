@@ -10,9 +10,19 @@ modxSDK.tabs.Layouttabs = function(config){
     Ext.applyIf(config,{
         id: 'modxsdk-layouttabs'
         ,autoHeight: true
+        ,items: [
+			{
+				xtype: "modxsdk-tree-builderobjectstree"
+				,border: false
+			} 
+		]
     });
     
     modxSDK.tabs.Layouttabs.superclass.constructor.call(this,config);
+    
+    
+    // console.log(this.getHeight());
+    // console.log(Ext.getCmp('modx-content').getHeight());
 };
 Ext.extend(modxSDK.tabs.Layouttabs, MODx.Tabs,{
     

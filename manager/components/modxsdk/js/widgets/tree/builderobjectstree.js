@@ -643,7 +643,7 @@ Ext.extend(modxSDK.tree.BuilderObjectsTree, MODx.tree.Tree,{
         if (this.disableHref) {return true;}
         if (e.ctrlKey) {return true;}
         
-        console.log(n);
+        // console.log(n);
         
         if(n.attributes.type && n.attributes.type == 'file'){
             this.openFile(n.attributes);

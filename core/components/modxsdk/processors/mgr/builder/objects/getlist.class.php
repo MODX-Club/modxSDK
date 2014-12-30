@@ -78,6 +78,7 @@ class modxSDKBuilderObjectsGetNodesProcessor extends modProcessor{
                 foreach($packages as $package){
                     if($node = $package->prepareNode()){
                         $nodes[] = $node;
+                        # print_r($node);
                     }
                 }
             }
@@ -91,10 +92,10 @@ class modxSDKBuilderObjectsGetNodesProcessor extends modProcessor{
      * get package nodes
      */
     public function getPackageNodes(){
-        $Vehicles = $this->getVehicles();
+        # $Vehicles = $this->getVehicles();
         $Sources = $this->getDirectoryRoot();
         $nodes = array(
-            $Vehicles,
+            # $Vehicles,
             $Sources,
         );
         
@@ -103,14 +104,16 @@ class modxSDKBuilderObjectsGetNodesProcessor extends modProcessor{
     
     public function getVehicles(){
         $cls = array(
-            'modxsdk-vehicles-icon'
+            'modxsdk-vehicles-icon icon-folder'
         );
-        return array(
+        
+        $classes = implode(' ', $cls);
+        
+        $node = array(
             'id'    => "n_".$this->node_id.'_vehicles',
             'text'  => 'Vehicles',
             'qtip'  => 'Package vehicles',
             'type'  => 'vehicles',
-            'cls'   => implode(' ', $cls),
             'leaf'  => false,
             'allowed_types'  => array(
                 'chunk',
@@ -118,21 +121,42 @@ class modxSDKBuilderObjectsGetNodesProcessor extends modProcessor{
                 'template',
             ),
         );
+        
+        if(version_compare($this->modx->getVersionData()['full_version'], "2.3")){
+            $node['iconCls'] = $classes;
+        }
+        else{
+            $node['cls'] = $classes;
+        }
+        
+        return $node;
     }
     
     public function getDirectoryRoot(){
         $cls = array(
-            // 'modxsdk-vehicles-icon'
+            'icon-folder'
         );
-        return array(
+        
+        $classes = implode(' ', $cls);
+        
+        $node = array(
             'id'    => "n_".$this->node_id.'_sources',
             'text'  => 'Media Sources',
             'qtip'  => 'Media Sources',
             'type'  => 'sources',
-            'cls'   => implode(' ', $cls),
+            # 'cls'   => implode(' ', $cls),
             'leaf'  => false,
             'allowed_types'  => array(),
         );
+        
+        if(version_compare($this->modx->getVersionData()['full_version'], "2.3")){
+            $node['iconCls'] = $classes;
+        }
+        else{
+            $node['cls'] = $classes;
+        }
+        
+        return $node;
     }
     
     
