@@ -4,6 +4,8 @@
 	For MODX-2.3+ compatibility
 */
 
+// die(__FILE__);
+
 require_once dirname(__FILE__) . '/mgr/index.class.php';
 
 class ModxsdkControllersManagerController extends ModxsdkIndexManagerController{
@@ -51,11 +53,8 @@ class ModxsdkControllersManagerController extends ModxsdkIndexManagerController{
         return;
     } 
 }
+  
 
-/*
-require_once dirname(__FILE__) . '/mgr/index.class.php';
-
-class ModxsdkIndexManagerController extends modxSDKManagerController{
-}
-*/
+class ControllersManagerController extends ModxsdkControllersManagerController{
+} 
 
