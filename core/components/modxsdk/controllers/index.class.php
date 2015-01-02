@@ -34,6 +34,10 @@ class ModxsdkControllersManagerController extends ModxsdkIndexManagerController{
                 Config.set("themePath", acePath);
                 Config.set("workerPath", acePath);    
                 MODx.add("modxsdk-layouttabs");
+                
+                window.onbeforeunload = function(){
+                    return false;
+                }
             });</script>';
 		$this->modx->smarty->assign('maincssjs',$o);
 	}
