@@ -1,29 +1,19 @@
 <?php
 
 
-class modxSDKBuilderObjectsGetNodesProcessor extends modProcessor{
+class modxSDKModelObjectsGetListProcessor extends modProcessor{
 
-    protected $node_id;
-    
-    protected $type;
-    
-    protected $packageid;
+    private $node_id;
+
 
     public function initialize() {
-        
-        if(!$this->type = $this->getProperty('type', false)){
-            return false;
-        }
-        
         $this->setDefaultProperties(array(
             'id' => '',
         ));
-        
-        if(!$this->node_id = $this->getProperty('id')){
-            return $this->failure('Could not get node ID');
-        }
-        
-        if (strpos($this->node_id, 'n_') === 0) {
+        $this->node_id = $this->getProperty('id');
+        if (empty($this->node_id) || $this->node_id == 'root') {
+            $this->setProperty('id','');
+        } else if (strpos($this->node_id, 'n_') === 0) {
             $this->node_id = substr($this->node_id, 2);
         }
          
@@ -31,217 +21,43 @@ class modxSDKBuilderObjectsGetNodesProcessor extends modProcessor{
     }
 
     public function process() {
-        $nodes = array();
         
-        switch($this->type){
-            case 'project':
-                $nodes = $this->getProjectNodes();
-                break;
-            case 'package':
-                $nodes = $this->getPackageNodes();
-                break;
-            case 'vehicles':
-                $nodes = $this->getPackageVehicles();
-                break;
-            case 'sources':
-                $nodes = $this->getPackageSources();
-                break;
-            case 'packagesource':
-            case 'dir':
-                $nodes = $this->getDirectoryList();
-                break;
-            default:;
+        if ($this->getSource() !== true) {
+            $error = 'Could not load class ModxsdkFileMediaSource';
+            $this->modx->log(xPDO::LOG_LEVEL_ERROR, $error);
+            return $this->failure($error);
         }
-        
-        return $this->toJSON($nodes);
-    } 
-    
-    
-    /*
-     * getProjectNodes
-     */
-    
-    public function getProjectNodes(){
-        $nodes = array();
-        
-        /*
-         * Collect packages
-         */
-        if($projectid = $this->getProperty('projectid')){
-            $q = $this->modx->newQuery('ModxsdkPackage');
-            $q->innerJoin('ModxsdkProjectPackage', 'PackageProjects');
-            $q->where(array(
-                'PackageProjects.projectid' => $projectid
-            ));
+         
+        switch($this->getProperty('type')){
+            case 'file':
+                return $this->getFileInfo();
+                break;
+            case 'class':
+                return $this->getClassInfo();
+                break;
+            default:
+                return $this->listDir();
+        }
+    }
 
-            if($packages = $this->modx->getCollection('ModxsdkPackage', $q)){
-                foreach($packages as $package){
-                    if($node = $package->prepareNode()){
-                        $nodes[] = $node;
-                        # print_r($node);
-                    }
-                }
-            }
-        }
-        
-        return $nodes;
+    public function listDir(){
+        $list = $this->source->getObjectsContainerList($this->node_id);
+        return $this->modx->toJSON($list);
     }
     
     
-    /*
-     * get package nodes
-     */
-    public function getPackageNodes(){
-        # $Vehicles = $this->getVehicles();
-        $Sources = $this->getDirectoryRoot();
-        $nodes = array(
-            # $Vehicles,
-            $Sources,
-        );
-        
-        return $nodes;
-    }
-    
-    public function getVehicles(){
-        $cls = array(
-            'modxsdk-vehicles-icon icon-folder'
-        );
-        
-        $classes = implode(' ', $cls);
-        
-        $node = array(
-            'id'    => "n_".$this->node_id.'_vehicles',
-            'text'  => 'Vehicles',
-            'qtip'  => 'Package vehicles',
-            'type'  => 'vehicles',
-            'leaf'  => false,
-            'allowed_types'  => array(
-                'chunk',
-                'snippet',
-                'template',
-            ),
-        );
-        
-        $VersionData = $this->modx->getVersionData();
-        if(version_compare($VersionData['full_version'], "2.3")){
-            $node['iconCls'] = $classes;
-        }
-        else{
-            $node['cls'] = $classes;
-        }
-        
-        return $node;
-    }
-    
-    public function getDirectoryRoot(){
-        $cls = array(
-            'icon-folder'
-        );
-        
-        $classes = implode(' ', $cls);
-        
-        $node = array(
-            'id'    => "n_".$this->node_id.'_sources',
-            'text'  => 'Media Sources',
-            'qtip'  => 'Media Sources',
-            'type'  => 'sources',
-            # 'cls'   => implode(' ', $cls),
-            'leaf'  => false,
-            'allowed_types'  => array(),
-        );
-        
-        $VersionData = $this->modx->getVersionData();
-        if(version_compare($VersionData['full_version'], "2.3")){
-            $node['iconCls'] = $classes;
-        }
-        else{
-            $node['cls'] = $classes;
-        }
-        
-        return $node;
+    public function getFileInfo(){
+        $list = $this->source->getFileInfo($this->node_id);
+        print $this->modx->toJSON($list);;
     }
     
     
-    /*
-     * Get Vehicles 
-     */
-    
-    public function getPackageVehicles(){
-         $nodes = array();
-        
-         $id = explode("_", $this->node_id);
-          
-        /*
-         * Collect vehicles
-         */
-        if($this->packageid = intval($id[1])){
-            $q = $this->modx->newQuery('ModxsdkVehicle');
-            $q->innerJoin('ModxsdkPackageVehicle', 'VehiclePackage');
-            $q->where(array(
-                'VehiclePackage.packageid' => $this->packageid
-            ));
-
-            if($vehicles = $this->modx->getCollection('ModxsdkVehicle', $q)){
-                foreach($vehicles as $vehicle){
-                    if($node = $vehicle->prepareNode()){
-                        $nodes[] = $node;
-                    }
-                }
-            }
-        }
-        
-        return $nodes;
+    public function getClassInfo(){
+        $id = explode('_', $this->node_id);
+        $list = $this->source->getClassInfo($id[1], $this->getProperty('name'));
+        print $this->modx->toJSON($list);;
     }
     
-    /*
-     * Get Package Sources 
-     */
-    
-    public function getPackageSources(){
-        $nodes = array();
-        
-        $id = explode("_", $this->node_id);
-          
-        /*
-         * Collect sources
-         */
-        if($this->packageid = intval($id[1])){
-            if($packagesource = $this->modx->getCollection('ModxsdkPackagesource', array(
-                'packageid' => $this->packageid
-            ))){
-                foreach($packagesource as $packagesourc){
-                    if($node = $packagesourc->prepareSourceNode()){
-                        $nodes[] = $node;
-                    }
-                }
-            }
-        }
-        
-        return $nodes;
-    }
-    
-    
-    /*
-     * List Direcory
-     */
-    
-    public function getDirectoryList(){
-        $nodes = array();
-        $array = explode('/', $this->node_id, 2);
-        $path = "/{$array[1]}";
-        
-        $id  = explode('_',  $array[0]);
-        
-        $this->packageid = $id[1];
-        $sourceid = $id[2];
-        
-        $this->setProperty('sourceid', $sourceid);
-        
-        if($this->getSource() !== true){
-            return $nodes;
-        } 
-        return $this->source->getPackageSourceContainerList($path);
-    }
     
     /**
      * Get the active Source
@@ -249,31 +65,33 @@ class modxSDKBuilderObjectsGetNodesProcessor extends modProcessor{
      */
     public function getSource() {
         
-        if(!$this->modx->loadClass('ModxsdkFileMediaSource')){
+        $path = $this->modx->getOption('modxsdk.core_path', null);
+        if(!$path){
+            $path = MODX_CORE_PATH .'components/modxsdk/';
+        }
+        $path .= 'model/modxSDK/'; 
+        
+        if(!$this->modx->loadClass('ModxsdkFileMediaSource', $path)){
             return false;
         }
         
-        $source = ModxsdkFileMediaSource::getDefaultSource($this->modx,$this->getProperty('sourceid'));
+        $source = modMediaSource::getDefaultSource($this->modx,$this->getProperty('source'));
         if (empty($source) || !$source->getWorkingContext()) {
             return false;
         }
         
         $this->source = $this->modx->newObject('ModxsdkFileMediaSource');
+        
         if (!$this->source->checkPolicy('list')) {
             return 'Source access denied';
         }
         
         $this->source->fromArray($source->toArray());
-        $this->source->fromArray(array(
-            'packageid' => $this->packageid,
-        ));
-        $this->source->set('id', $source->get('id'));
         $this->source->setRequestProperties($this->getProperties());
         $this->source->initialize();
-        
         return true;
     }
 }
 
-return 'modxSDKBuilderObjectsGetNodesProcessor';
+return 'modxSDKModelObjectsGetListProcessor';
 ?>
