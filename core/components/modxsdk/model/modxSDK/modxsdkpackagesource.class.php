@@ -24,7 +24,8 @@ class ModxsdkPackagesource extends xPDOObject {
             ),
         );
         
-        if(version_compare($this->xpdo->getVersionData()['full_version'], "2.3")){
+        $VersionData = $this->xpdo->getVersionData();
+        if(version_compare($VersionData['full_version'], "2.3")){
             $node['iconCls'] = 'icon-folder';
         }
         else{

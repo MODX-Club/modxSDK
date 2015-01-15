@@ -122,7 +122,8 @@ class modxSDKBuilderObjectsGetNodesProcessor extends modProcessor{
             ),
         );
         
-        if(version_compare($this->modx->getVersionData()['full_version'], "2.3")){
+        $VersionData = $this->modx->getVersionData();
+        if(version_compare($VersionData['full_version'], "2.3")){
             $node['iconCls'] = $classes;
         }
         else{
@@ -149,7 +150,8 @@ class modxSDKBuilderObjectsGetNodesProcessor extends modProcessor{
             'allowed_types'  => array(),
         );
         
-        if(version_compare($this->modx->getVersionData()['full_version'], "2.3")){
+        $VersionData = $this->modx->getVersionData();
+        if(version_compare($VersionData['full_version'], "2.3")){
             $node['iconCls'] = $classes;
         }
         else{

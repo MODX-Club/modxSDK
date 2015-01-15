@@ -230,8 +230,8 @@ class ModxsdkFileMediaSource extends modFileMediaSource{
                             'dir',
                         ),
                     );
-                    
-                    if(version_compare($this->xpdo->getVersionData()['full_version'], "2.3")){
+                    $VersionData = $this->xpdo->getVersionData();
+                    if(version_compare($VersionData['full_version'], "2.3")){
                         $directories[$fileName]['iconCls'] = $classes;
                     }
                     else{
@@ -290,7 +290,8 @@ class ModxsdkFileMediaSource extends modFileMediaSource{
                     'source'    => $this->id,
                 );
                     
-                if(version_compare($this->xpdo->getVersionData()['full_version'], "2.3")){
+                $VersionData = $this->xpdo->getVersionData();
+                if(version_compare($VersionData['full_version'], "2.3")){
                     $files[$fileName]['iconCls'] = $classes;
                 }
                 else{
