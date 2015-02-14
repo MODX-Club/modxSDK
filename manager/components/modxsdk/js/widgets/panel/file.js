@@ -113,6 +113,12 @@ Ext.extend(modxSDK.panel.FileEdit,Ext.Panel,{
                         case 'xml':
                             mode = 'ace/mode/xml';
                             break;
+                        case 'less':
+                            mode = 'ace/mode/less';
+                            break;
+                        case 'coffee':
+                            mode = 'ace/mode/coffee';
+                            break;
                     }
                     
                     this.editor.getSession().setMode(mode);
