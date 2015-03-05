@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package packagerversion="1.9.1" version="2.0" xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
+ <name>PHP_Beautifier</name>
+ <channel>pear.php.net</channel>
+ <summary>Beautifier for Php</summary>
+ <description>This program reformat and beautify PHP 4 and PHP 5 source code files automatically. The program is Open Source and distributed under the terms of PHP Licence. It is written in PHP 5 and has a command line tool.</description>
+ <lead>
+  <name>Claudio Bustos</name>
+  <user>clbustos</user>
+  <email>clbustos_at_gmail</email>
+  <active>yes</active>
+ </lead>
+ <date>2010-06-04</date>
+ <time>16:29:45</time>
+ <version>
+  <release>0.1.15</release>
+  <api>0.1.12</api>
+ </version>
+ <stability>
+  <release>beta</release>
+  <api>beta</api>
+ </stability>
+ <license uri="http://www.php.net/license">PHP License</license>
+ <notes>
+&quot;Jespino: the bug killer&quot; Release
+
+- Fixed bug #11245: Lowercase filter prepends the control structure with ugly &apos; &apos;
+- Fixed bug #13861: Now comments are correctly indented.
+- Fixed bug #14293: Minor typo in documentation (PHP_Beautifier_Filter_Default)
+- Fixed bug #14357: PHP_Beautifier breaks php 5.3 code [needs more testing]
+- Fixed bug #14429: string with two variables in braces and one of them is an array and this string is within a switch statement, then the braces become indented as if they were ending the switch statement (PEAR Filter)
+- Fixed bug #14754: Comment at end of function throws off control sequence
+- Fixed bug #14761: do {} while () syntax messes up control sequence
+- Fixed bug #16197: Now the new filter EqualsAlign do this.
+- Fixed bug #16991: Added the Fluent filter that change the multi-level ac
+- Fixed bug #17278:  	Continue 2; not processed correctly
+- Implement Feature #13601: cannot trivially find the current version [on command line]
+- Implement Feature  #14396: Lowercase filter to handle TRUE and FALSE
+- Fixed the style in long comments begining all lines with &quot;*&quot;
+- Added the new DocBlock filter usign the DocBlockGenerator Pear Library
+- Added t_forach to Default filter. Puts a space after control statement.
+- Changed test suite to work with phpunit
+ </notes>
+ <contents>
+  <dir name="/">
+   <file baseinstalldir="PHP" md5sum="c8e18016616d6d89f1f52b9d4fd31918" name="Beautifier/Batch/Output/Directory.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="cabbb0cb0cddc10ef7d60c87da22c401" name="Beautifier/Batch/Output/DirectoryBz2.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="df4ae5ef6557348557df6cb786e84059" name="Beautifier/Batch/Output/DirectoryGz.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="e8c62dd3bcd59c2bf0121cdec4dffe06" name="Beautifier/Batch/Output/DirectoryTar.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="49f44304cd7127380991d767f59d1b82" name="Beautifier/Batch/Output/Files.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="706b36e46f500525aa3dc6edbe5cbf9d" name="Beautifier/Batch/Output/FilesBz2.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="5a7f4574dd226f83675de311b9134a61" name="Beautifier/Batch/Output/FilesGz.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="a11029c28f31454f40cfd621088c4ef0" name="Beautifier/Batch/Output/FilesTar.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="c1fcad4ab903327f1af7309884440c52" name="Beautifier/Batch/Output.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="ffabe3101fbc192c2accbd18831f3aed" name="Beautifier/Filter/ArrayNested.filter.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="896a97f1c81140a739c0465de3b0e786" name="Beautifier/Filter/Default.filter.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="50bde06860bd3d7e23d0579a6555daf7" name="Beautifier/Filter/DocBlock.filter.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="fc8c2a432403ffef111f6ea48dfe9cf3" name="Beautifier/Filter/EqualsAlign.filter.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="0ba63381e382463a21b470efe66678b6" name="Beautifier/Filter/IndentStyles.filter.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="fb6f1be23605972b5f91a1ba5084a916" name="Beautifier/Filter/ListClassFunction.filter.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="25c9799dc64d9937ee843b66b2cc6c55" name="Beautifier/Filter/Lowercase.filter.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="ba2d4020ed51f4f6349d2f58dc633835" name="Beautifier/Filter/NewLines.filter.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="d0fbebfd031dd59409d8de24c5593210" name="Beautifier/Filter/Pear.filter.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="dca9da4860dfa7f72d50300386ef36f4" name="Beautifier/Filter/phpBB.filter.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="9c43850530d730d9fecc06082efec1c3" name="Beautifier/StreamWrapper/Tarz.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="db99f627af3183cc93ff8b12cefc54be" name="Beautifier/Batch.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="b6fc22af1979be7e827238b74f2cd385" name="Beautifier/Common.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="e0b429f7e1f5a130f5f37d8b44189024" name="Beautifier/Decorator.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="88c9e840ef0571e5d3864fa5e214cca6" name="Beautifier/Exception.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="97928e3a9fcb2b8db84f53dc5a949cac" name="Beautifier/Filter.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="aac16f853ede7e7859f60ac9d80a7141" name="Beautifier/StreamWrapper.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="161884ec5da48543da34f16040e966f6" name="Beautifier/Tokenizer.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="4be98f42a37b37bf3dc23d3065d1e34e" name="examples/example_array.php" role="doc" />
+   <file baseinstalldir="PHP" md5sum="f9ad38e9a9bc8c9f73810b23d0d03874" name="examples/example_comments.php" role="doc" />
+   <file baseinstalldir="PHP" md5sum="d33c75ae10cb6c34275ff2e96298907a" name="examples/example_html.php" role="doc" />
+   <file baseinstalldir="PHP" md5sum="8c2b1c52f86d091f9c0cf1064cd5b45a" name="examples/example_lowercase.php" role="doc" />
+   <file baseinstalldir="PHP" md5sum="7dcb52ba638ba31bf91a4fb68ccb1741" name="examples/example_main.php" role="doc" />
+   <file baseinstalldir="PHP" md5sum="be3e0cda18a01a595cfecd2b07176aa1" name="examples/example_pear.php" role="doc" />
+   <file baseinstalldir="PHP" md5sum="d1c64a1920a161f101dcb8b5fd6a710b" name="examples/run_me.php" role="doc" />
+   <file baseinstalldir="PHP" md5sum="fe3aa1988b807049158a78c8c06987a1" name="licenses/apache.txt" role="data" />
+   <file baseinstalldir="PHP" md5sum="fc8c4631f1f865199c27cb0c2f561127" name="licenses/bsd.txt" role="data" />
+   <file baseinstalldir="PHP" md5sum="4ed1d658d8dff39314d33f4f1f12e621" name="licenses/lgpl.txt" role="data" />
+   <file baseinstalldir="PHP" md5sum="5f9fc848e79ca53ceda4f4790f42e997" name="licenses/pear.txt" role="data" />
+   <file baseinstalldir="PHP" md5sum="aec129d6e97c0bea17779779a63f7043" name="licenses/php.txt" role="data" />
+   <file baseinstalldir="/" md5sum="de5b735f60fd2a25cd6dcf545da06686" name="scripts/php_beautifier" role="script">
+    <tasks:replace from="@php_bin@" to="php_bin" type="pear-config" />
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="/" md5sum="9f74edde62aa91d266be21b576c6c8de" name="scripts/php_beautifier.bat" role="script">
+    <tasks:replace from="@php_bin@" to="php_bin" type="pear-config" />
+    <tasks:replace from="@bin_dir@" to="bin_dir" type="pear-config" />
+    <tasks:windowseol />
+   </file>
+   <file baseinstalldir="PHP" md5sum="82e05fc290b5ce131eae3aee32bf7d50" name="tests/Beautifier/Filter/PearTest.php" role="test">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="7bba162586090a15fa39560b8be9e2ca" name="tests/Beautifier/Filter/pear_sample_file.phps" role="data" />
+   <file baseinstalldir="PHP" md5sum="fc5f6832698873e041e4e59c9348f1a0" name="tests/Beautifier/StreamWrapperTest.php" role="test">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="bf93255a0895b5ab02abd6451240d892" name="tests/Beautifier/Beautifier.tar.bz2" role="data" />
+   <file baseinstalldir="PHP" md5sum="890c43d9ef737e86e2de019a65825663" name="tests/Beautifier/Beautifier.tar.gz" role="data" />
+   <file baseinstalldir="PHP" md5sum="77771b26bde6711483bb51c0c8cf0230" name="tests/BeautifierBugsTest.php" role="test">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="28e170cd7eb8879948fd06ae6c00d496" name="tests/BeautifierCommonTest.php" role="test">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="d3917029506d879e2d29846fe34c4ac4" name="tests/BeautifierInternalTest.php" role="test">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="6077e45fdcb3e888be2a3ba4dabdfc4a" name="tests/BeautifierTest.php" role="test">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="062fc43a137bbcda88c4b651529861d0" name="tests/Helpers.php" role="test">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+   <file baseinstalldir="PHP" md5sum="5d2b9a8a5db5bf2bda7b0fef22e319e1" name="Beautifier.php" role="php">
+    <tasks:replace from="@package_version@" to="version" type="package-info" />
+   </file>
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0b1</min>
+   </pearinstaller>
+   <package>
+    <name>Log</name>
+    <channel>pear.php.net</channel>
+    <min>1.8</min>
+   </package>
+   <extension>
+    <name>tokenizer</name>
+   </extension>
+  </required>
+  <optional>
+   <package>
+    <name>PHP_DocBlockGenerator</name>
+    <channel>pear.php.net</channel>
+    <min>1</min>
+    <exclude>1</exclude>
+   </package>
+   <package>
+    <name>Console_Getopt</name>
+    <channel>pear.php.net</channel>
+    <min>1</min>
+    <exclude>1</exclude>
+   </package>
+   <package>
+    <name>Archive_Tar</name>
+    <channel>pear.php.net</channel>
+    <min>1.2</min>
+   </package>
+   <extension>
+    <name>bz2</name>
+   </extension>
+  </optional>
+ </dependencies>
+ <phprelease>
+  <filelist>
+   <install as="php_beautifier" name="scripts/php_beautifier" />
+   <install as="php_beautifier.bat" name="scripts/php_beautifier.bat" />
+  </filelist>
+ </phprelease>
+ <phprelease>
+  <filelist>
+   <install as="php_beautifier" name="scripts/php_beautifier" />
+   <ignore name="scripts/php_beautifier.bat" />
+  </filelist>
+ </phprelease>
+</package>
