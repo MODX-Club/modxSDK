@@ -136,6 +136,7 @@ Ext.extend(modxSDK.panel.FileEdit, Ext.Panel, {
     ,
     save: function() {
         var mask = new Ext.LoadMask(this.editor.container);
+        var row = this.editor.selection.getCursor().row;
         mask.show();
         MODx.Ajax.request({
             url: this.config.url,
@@ -149,7 +150,7 @@ Ext.extend(modxSDK.panel.FileEdit, Ext.Panel, {
                 'success': {
                     fn: function(r) {
                         this.editor.setValue(r.object.content);
-                        this.editor.selectPageUp();
+                        setTimeout((function(){this.editor.gotoLine(row+1);}).bind(this),100);
                         mask.hide();
                     },
                     scope: this
