@@ -1,11 +1,9 @@
 <?php
-$menus  =  array();
-
+$menus = array();
 /*
  * Основной контроллер
- */
-
-$action= $modx->newObject('modAction');
+*/
+$action = $modx->newObject('modAction');
 $action->fromArray(array(
     'id' => 1,
     'namespace' => NAMESPACE_NAME,
@@ -14,10 +12,11 @@ $action->fromArray(array(
     'haslayout' => 1,
     'lang_topics' => 'modxsdk:default',
     'assets' => '',
-),'',true,true);
-
-/* load action into menu */
-$menu= $modx->newObject('modMenu');
+) , '', true, true);
+/**
+ *  load action into menu
+ */
+$menu = $modx->newObject('modMenu');
 $menu->fromArray(array(
     'text' => 'modxsdk',
     'parent' => 'components',
@@ -26,12 +25,10 @@ $menu->fromArray(array(
     'menuindex' => 0,
     'params' => '',
     'handler' => '',
-    'permissions'   => 'console',
+    'permissions' => 'console',
     'namespace' => NAMESPACE_NAME,
-),'',true,true);
+) , '', true, true);
 $menu->addOne($action);
 unset($action);
- 
 $menus[] = $menu;
-
 return $menus;

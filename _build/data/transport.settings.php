@@ -1,26 +1,20 @@
 <?php
-
-/*
- * @package modxSDK
- * @subpackage build
- * @author Fi1osof
- * http://community.modx-cms.ru/profile/Fi1osof/
- * http://modxstore.ru
- */
-
 $settings = array();
-
-
+/*
+ * Default source
+*/
 $setting = $modx->newObject('modSystemSetting');
 $setting->fromArray(array(
     'key' => 'modxsdk.default_source',
     'value' => '',
-    'xtype' => 'numberfiel',
+    'xtype' => 'numberfield',
     'namespace' => NAMESPACE_NAME,
     'area' => 'file',
-),'',true,true);
+) , '', true, true);
 $settings[] = $setting;
-
+/*
+ *  Theme
+*/
 $setting = $modx->newObject('modSystemSetting');
 $setting->fromArray(array(
     'key' => 'modxsdk.ace_theme',
@@ -28,9 +22,20 @@ $setting->fromArray(array(
     'xtype' => 'textfield',
     'namespace' => NAMESPACE_NAME,
     'area' => 'file',
-),'',true,true);
+) , '', true, true);
 $settings[] = $setting;
-
-
- 
+/*
+ *  Turn on PHP Beautifier
+*/
+$setting = $modx->newObject('modSystemSetting');
+$setting->fromArray(array(
+    'key' => 'modxsdk.php_beautifier',
+    'value' => 0,
+    'xtype' => 'combo-boolean',
+    'namespace' => NAMESPACE_NAME,
+    'area' => 'file',
+) , '', true, true);
+$settings[] = $setting;
+# Flush
+unset($setting, $setting_name);
 return $settings;
