@@ -15,7 +15,14 @@ class modxSDKFileUpdateProcessor extends modBrowserFileUpdateProcessor
         {
             return $this->failure($this->modx->lexicon('permission_denied'));
         }
-        $content = $this->_beautify();
+        if ($this->modx->getOption('modxsdk.php_beautifier')) 
+        {
+            $content = $this->_beautify();
+        }
+        else
+        {
+            $content = $this->getProperty('content');
+        }
         $path = $this->source->updateObject($filePath, $content);
         if (empty($path)) 
         {
