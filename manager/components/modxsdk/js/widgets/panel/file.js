@@ -87,11 +87,13 @@ Ext.extend(modxSDK.panel.FileEdit,Ext.Panel,{
                     var basename = r.object.basename;
                     var ext_arr = basename.split('.');
                     var ext = ext_arr[ext_arr.length-1];
+                    var tabSize = 4;
                    
                     var mode = "ace/mode/text";
                     switch(ext){
                         case 'js':
                             mode = 'ace/mode/javascript';
+                            tabSize = 2;
                             break;
                         case 'css':
                             mode = 'ace/mode/css';
@@ -109,6 +111,7 @@ Ext.extend(modxSDK.panel.FileEdit,Ext.Panel,{
                             break;
                         case 'json':
                             mode = 'ace/mode/json';
+                            tabSize = 2;
                             break;
                         case 'xml':
                             mode = 'ace/mode/xml';
@@ -118,10 +121,14 @@ Ext.extend(modxSDK.panel.FileEdit,Ext.Panel,{
                             break;
                         case 'coffee':
                             mode = 'ace/mode/coffee';
+                            tabSize = 2;
                             break;
                     }
                     
                     this.editor.getSession().setMode(mode);
+                    this.editor.getSession().setOptions({
+                        tabSize: tabSize
+                    });
                     this.editor.setValue(r.object.content);
                 },scope:this}
             }
