@@ -107,6 +107,7 @@ Ext.extend(modxSDK.panel.FileEdit,Ext.Panel,{
                         case 'htm':
                         case 'html':
                         case 'tpl':
+                        case 'twig':
                             mode = 'ace/mode/html';
                             break;
                         case 'json':
