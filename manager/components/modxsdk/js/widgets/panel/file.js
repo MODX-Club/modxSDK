@@ -92,6 +92,7 @@ Ext.extend(modxSDK.panel.FileEdit,Ext.Panel,{
                     var mode = "ace/mode/text";
                     switch(ext){
                         case 'js':
+                        case 'jsx':
                             mode = 'ace/mode/javascript';
                             tabSize = 2;
                             break;
